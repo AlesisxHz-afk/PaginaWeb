@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hogwarts ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100dvh;
+    background: #d6f5d6;
+    background-image:
+      radial-gradient(circle at 20% 30%, #c8f0c8 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, #b8eab8 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2390c890' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Rosas cayendo */
+  .roses-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .rose-petal {
+    position: absolute;
+    top: -60px;
+    font-size: var(--size, 1.4rem);
+    animation: roseFall var(--dur, 8s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+    filter: drop-shadow(0 2px 4px rgba(180, 20, 60, 0.25));
+  }
+  @keyframes roseFall {
+    0%   { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+    8%   { opacity: 0.85; }
+    50%  { transform: translateY(50vh) rotate(180deg) translateX(30px); opacity: 0.7; }
+    92%  { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+    z-index: 1;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+  }
+
+  /* ── FOTO ── */
+  .photo-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bow-container {
+    position: absolute;
+    top: -52px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    animation: sway 3.5s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%, 100% { transform: translateX(-50%) rotate(-4deg); }
+    50% { transform: translateX(-50%) rotate(4deg); }
+  }
+  .bow-svg {
+    filter: drop-shadow(0 4px 8px rgba(139, 0, 0, 0.35)) drop-shadow(0 1px 2px rgba(255, 80, 80, 0.4));
+  }
+
+  .ribbon-hang {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 28px;
+    background: linear-gradient(to bottom, #8b0000, #c41e3a, #dc143c);
+    border-radius: 2px;
+    z-index: 5;
+    box-shadow: 1px 0 3px rgba(139, 0, 0, 0.3);
+  }
+
+  .photo-wrapper {
+    position: relative;
+    padding: 14px;
+    background: linear-gradient(145deg, #fffef8, #f8f0e8);
+    border-radius: 12px;
+    box-shadow:
+      0 12px 40px rgba(0,0,0,0.12),
+      0 4px 12px rgba(212, 175, 55, 0.15),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    animation: photoFloat 4s ease-in-out infinite;
+    transition: transform 0.3s ease;
+  }
+  .photo-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .photo-wrapper:hover {
+    transform: rotate(-3deg) scale(1.02);
+  }
+  @keyframes photoFloat {
+    0%, 100% { transform: rotate(-5deg) translateY(0px); }
+    50% { transform: rotate(-5deg) translateY(-10px); }
+  }
+
+  .photo-frame {
+    transform: rotate(0deg);
+    border: 4px solid #fff;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 175, 55, 0.3),
+      0 6px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 220px;
+    height: 280px;
+    background: #1a1a2e;
+    position: relative;
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-label {
+    margin-top: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #5a8a5a;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.8);
+    animation: labelPulse 2s ease-in-out infinite;
+    letter-spacing: 1px;
+  }
+  @keyframes labelPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ── TECLADO ── */
+  .keypad-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .keypad-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #3a6b3a;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 280px;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+  }
+  .keypad-title .star { color: #ff8faa; }
+
+  .display-box {
+    background: rgba(255,255,255,0.7);
+    border: 2px solid #a8d8a8;
+    border-radius: 10px;
+    padding: 10px 20px;
+    width: 200px;
+    text-align: center;
+    font-size: 1.8rem;
+    letter-spacing: 8px;
+    color: #3a6b3a;
+    font-family: 'Cinzel', serif;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05), 0 2px 8px rgba(255,255,255,0.8);
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: rgba(255,255,255,0.5);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1.5px solid rgba(168,216,168,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 0 0 1px rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+  }
+
+  .key {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    border: 1.5px solid #a8d8a8;
+    background: linear-gradient(145deg, #ffffff, #e8f8e8);
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #3a6b3a;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+  .key:hover {
+    background: linear-gradient(145deg, #e8f8e8, #d0f0d0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  }
+  .key:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .key.delete {
+    font-size: 1rem;
+    background: linear-gradient(145deg, #fff0f3, #ffe0e8);
+    border-color: #ffb6c1;
+    color: #c0607a;
+  }
+  .key.zero { grid-column: 2; }
+
+  .enter-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #7ac47a, #5aaa5a);
+    color: white;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(90,170,90,0.4);
+  }
+  .enter-btn:hover {
+    background: linear-gradient(135deg, #6ab46a, #4a9a4a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(90,170,90,0.5);
+  }
+
+  /* Shake en error */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
+  .shake { animation: shake 0.4s ease; }
+
+  .error-msg {
+    font-size: 0.75rem;
+    color: #d06080;
+    font-style: italic;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    height: 18px;
+  }
+  .error-msg.show { opacity: 1; }
+
+  /* Overlay de transición */
+  .transition-overlay {
+    position: fixed;
+    inset: 0;
+    background: #1a1a2e;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .transition-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .wand-text {
+    font-family: 'Cinzel', serif;
+    color: #d4af37;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    animation: glowText 1s ease-in-out infinite alternate;
+  }
+  @keyframes glowText {
+    from { text-shadow: 0 0 10px #d4af37; }
+    to { text-shadow: 0 0 30px #d4af37, 0 0 60px #ffcc44; }
+  }
+  .loading-dots {
+    color: #d4af37;
+    font-size: 2rem;
+    margin-top: 10px;
+    letter-spacing: 6px;
+    animation: dots 1.2s steps(4, end) infinite;
+  }
+
+  /* ── REPRODUCTOR VINILO ── */
+  .vinyl-player {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+  }
+  .vol-toggle {
+    display: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid #d4af37;
+    background: rgba(255,255,255,0.92);
+    font-size: 0.85rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    padding: 0;
+    line-height: 1;
+  }
+  .vinyl-disc {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, #1a1a1a 8%, transparent 9%),
+      repeating-radial-gradient(circle at center, #111 0px, #222 1px, #111 2px);
+    border: 3px solid #2a2a2a;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35), inset 0 0 8px rgba(255,255,255,0.05);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+  }
+  .vinyl-disc::after {
+    content: '';
+    position: absolute;
+    inset: 28%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #c41e3a 30%, #8b0000 70%);
+    border: 2px solid #1a1a1a;
+  }
+  .vinyl-disc:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.4), 0 0 12px rgba(196, 30, 58, 0.3);
+  }
+  .vinyl-disc.playing {
+    animation: spinVinyl 3s linear infinite;
+  }
+  @keyframes spinVinyl {
+    to { transform: rotate(360deg); }
+  }
+  .vinyl-disc.playing:hover {
+    animation: spinVinyl 3s linear infinite;
+    transform: scale(1.06);
+  }
+  .vinyl-controls {
+    background: rgba(255,255,255,0.92);
+    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    border-radius: 14px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    backdrop-filter: blur(8px);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 140px;
+  }
+  .vinyl-controls.visible { display: flex; }
+  .vinyl-controls label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: #5a3a1a;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .volume-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vol-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid #d4af37;
+    background: linear-gradient(145deg, #fff, #f5ecd8);
+    color: #5a3a1a;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    line-height: 1;
+    padding: 0;
+  }
+  .vol-btn:hover {
+    background: #d4af37;
+    color: #fff;
+  }
+  .volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #d4af37, #c41e3a);
+    outline: none;
+    cursor: pointer;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #8b0000;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  .vinyl-status {
+    font-size: 0.6rem;
+    color: #8b7355;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* ── MÓVIL ── */
+  @media (max-width: 768px) {
+    body {
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      align-items: flex-start;
+      padding: max(16px, env(safe-area-inset-top)) 16px max(70px, calc(56px + env(safe-area-inset-bottom))) 16px;
+    }
+
+    .container {
+      flex-direction: column;
+      gap: 36px;
+      padding: 8px 4px 20px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .photo-section { width: 100%; }
+
+    .bow-container { top: -44px; }
+    .bow-svg { width: 90px; height: auto; }
+
+    .photo-wrapper { padding: 10px; }
+    .photo-frame {
+      width: min(200px, 58vw);
+      height: min(255px, 74vw);
+    }
+
+    .photo-label { font-size: 1.2rem; margin-top: 14px; }
+
+    .keypad-section {
+      width: 100%;
+      max-width: 300px;
+      gap: 14px;
+    }
+
+    .keypad-title {
+      font-size: 0.95rem;
+      max-width: 100%;
+      padding: 0 8px;
+    }
+
+    .display-box {
+      width: 100%;
+      max-width: 260px;
+      font-size: 1.5rem;
+      letter-spacing: 6px;
+      min-height: 48px;
+    }
+
+    .keypad {
+      width: 100%;
+      max-width: 280px;
+      padding: 12px;
+      gap: 8px;
+    }
+
+    .key {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      min-height: 52px;
+      max-width: none;
+      font-size: 1.15rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .enter-btn {
+      max-width: 280px;
+      padding: 14px;
+      font-size: 0.95rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .wand-text { font-size: 1.2rem; letter-spacing: 2px; padding: 0 16px; text-align: center; }
+
+    .vinyl-player {
+      bottom: max(12px, env(safe-area-inset-bottom));
+      left: max(10px, env(safe-area-inset-left));
+      gap: 6px;
+    }
+    .vinyl-disc { width: 54px; height: 54px; border-width: 2px; }
+    .vol-toggle { display: flex; width: 30px; height: 30px; font-size: 0.8rem; }
+    .vinyl-controls,
+    .vinyl-controls.visible {
+      display: none !important;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 0;
+      min-width: 140px;
+      padding: 8px 10px;
+      z-index: 51;
+    }
+    .vinyl-player.controls-open .vinyl-controls {
+      display: flex !important;
+    }
+    .vinyl-status { display: none; }
+    .vol-btn { width: 32px; height: 32px; }
+
+    .rose-petal { font-size: 1rem !important; }
+  }
+
+  @media (max-width: 380px) {
+    .photo-frame {
+      width: 175px;
+      height: 220px;
+    }
+    .keypad { gap: 6px; padding: 10px; }
+    .key { min-height: 46px; font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Rosas cayendo -->
+<div class="roses-bg" id="rosesBg"></div>
+
+<div class="container">
+  <!-- FOTO -->
+  <div class="photo-section">
+    <!-- Lazito colgando arriba-izquierda -->
+    <div class="bow-container">
+      <svg class="bow-svg" width="110" height="72" viewBox="0 0 110 72">
+        <defs>
+          <linearGradient id="ribbonDark" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6b0000"/>
+            <stop offset="50%" stop-color="#b01030"/>
+            <stop offset="100%" stop-color="#8b0000"/>
+          </linearGradient>
+          <linearGradient id="ribbonLight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#dc143c"/>
+            <stop offset="40%" stop-color="#ff4466"/>
+            <stop offset="100%" stop-color="#a01028"/>
+          </linearGradient>
+          <linearGradient id="ribbonShine" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(255,200,200,0.7)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </linearGradient>
+        </defs>
+        <!-- lazo izquierdo - capa base -->
+        <path d="M55,30 C42,14 10,10 12,28 C14,42 38,36 55,30Z" fill="url(#ribbonDark)"/>
+        <!-- lazo izquierdo - pliegue superior -->
+        <path d="M55,30 C46,18 22,16 24,28 C26,36 42,33 55,30Z" fill="url(#ribbonLight)" opacity="0.85"/>
+        <!-- lazo izquierdo - brillo -->
+        <path d="M30,22 C38,18 48,20 52,26 C44,24 36,24 30,22Z" fill="url(#ribbonShine)"/>
+        <!-- lazo derecho - capa base -->
+        <path d="M55,30 C68,14 100,10 98,28 C96,42 72,36 55,30Z" fill="url(#ribbonDark)"/>
+        <!-- lazo derecho - pliegue superior -->
+        <path d="M55,30 C64,18 88,16 86,28 C84,36 68,33 55,30Z" fill="url(#ribbonLight)" opacity="0.85"/>
+        <!-- lazo derecho - brillo -->
+        <path d="M80,22 C72,18 62,20 58,26 C66,24 74,24 80,22Z" fill="url(#ribbonShine)"/>
+        <!-- nudo central -->
+        <ellipse cx="55" cy="30" rx="9" ry="7" fill="#6b0000"/>
+        <ellipse cx="55" cy="29" rx="7" ry="5.5" fill="#c41e3a"/>
+        <ellipse cx="53" cy="27" rx="3" ry="2" fill="rgba(255,180,180,0.5)"/>
+        <!-- colas izquierda -->
+        <path d="M50,34 Q38,48 28,62 Q32,58 36,52 Q42,44 50,34Z" fill="url(#ribbonDark)"/>
+        <path d="M48,35 Q40,46 34,56" stroke="rgba(255,150,150,0.4)" stroke-width="1.5" fill="none"/>
+        <!-- colas derecha -->
+        <path d="M60,34 Q72,48 82,62 Q78,58 74,52 Q68,44 60,34Z" fill="url(#ribbonDark)"/>
+        <path d="M62,35 Q70,46 76,56" stroke="rgba(255,150,150,0.4)" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    <div class="ribbon-hang"></div>
+
+    <div class="photo-wrapper">
+      <div class="photo-frame">
+        <img src="img/nerey02.jpg" alt="Nereycita">
+      </div>
+    </div>
+
+    <div class="photo-label">nereycita ʕ•ᴥ•ʔ</div>
+  </div>
+
+  <!-- TECLADO -->
+  <div class="keypad-section">
+    <div class="keypad-title">
+      <span class="star">⚡</span> Ingresa la contraseña<br>para entrar a<br><strong>Hogwarts</strong> <span class="star">⚡</span>
+    </div>
+
+    <div class="display-box" id="display">
+      <span id="display-dots"></span>
+    </div>
+
+    <div class="keypad">
+      <button class="key" onclick="pressKey('1')">1</button>
+      <button class="key" onclick="pressKey('2')">2</button>
+      <button class="key" onclick="pressKey('3')">3</button>
+      <button class="key" onclick="pressKey('4')">4</button>
+      <button class="key" onclick="pressKey('5')">5</button>
+      <button class="key" onclick="pressKey('6')">6</button>
+      <button class="key" onclick="pressKey('7')">7</button>
+      <button class="key" onclick="pressKey('8')">8</button>
+      <button class="key" onclick="pressKey('9')">9</button>
+      <button class="key delete" onclick="deleteKey()">⌫</button>
+      <button class="key zero" onclick="pressKey('0')">0</button>
+      <button class="key" onclick="submitKey()">↵</button>
+    </div>
+
+    <button class="enter-btn" onclick="submitKey()">✨ Acceder ✨</button>
+    <div class="error-msg" id="error">Contraseña incorrecta 🔒</div>
+  </div>
+</div>
+
+<!-- Overlay transición -->
+<div class="transition-overlay" id="overlay">
+  <div class="wand-text">⚡ Acceso concedido ⚡</div>
+  <div class="loading-dots">· · ·</div>
+</div>
+
+<!-- Reproductor de vinilo -->
+<div class="vinyl-player" id="vinylPlayer">
+  <div class="vinyl-disc" id="vinylDisc" title="Reproducir música"></div>
+  <button class="vol-toggle" id="volToggle" aria-label="Mostrar volumen">🔊</button>
+  <div class="vinyl-controls" id="vinylControls">
+    <label>Volumen</label>
+    <div class="volume-row">
+      <button class="vol-btn" id="volDown" aria-label="Bajar volumen">−</button>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+      <button class="vol-btn" id="volUp" aria-label="Subir volumen">+</button>
+    </div>
+    <div class="vinyl-status" id="vinylStatus">Toca el disco para reproducir</div>
+  </div>
+</div>
+<audio id="bgMusic" src="music/reina.mp3" loop preload="auto"></audio>
+
+<script>
+  const PASSWORD = '62442';
+  let input = '';
+
+  // Rosas cayendo
+  const rosesBg = document.getElementById('rosesBg');
+  for (let i = 0; i < 28; i++) {
+    const rose = document.createElement('span');
+    rose.className = 'rose-petal';
+    rose.textContent = '🌹';
+    rose.style.left = Math.random() * 100 + 'vw';
+    rose.style.setProperty('--size', (1 + Math.random() * 1.2) + 'rem');
+    rose.style.setProperty('--dur', (6 + Math.random() * 8) + 's');
+    rose.style.setProperty('--delay', (Math.random() * 10) + 's');
+    rosesBg.appendChild(rose);
+  }
+
+  // Reproductor vinilo
+  const audio = document.getElementById('bgMusic');
+  const vinylPlayer = document.getElementById('vinylPlayer');
+  const vinylDisc = document.getElementById('vinylDisc');
+  const vinylControls = document.getElementById('vinylControls');
+  const volToggle = document.getElementById('volToggle');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const vinylStatus = document.getElementById('vinylStatus');
+  const mobileMq = window.matchMedia('(max-width: 768px)');
+  let isPlaying = false;
+
+  audio.volume = 0.7;
+
+  function updateVinylLayout() {
+    if (mobileMq.matches) {
+      vinylControls.classList.remove('visible');
+      vinylPlayer.classList.remove('controls-open');
+    } else {
+      vinylControls.classList.add('visible');
+      vinylPlayer.classList.remove('controls-open');
+    }
+  }
+  updateVinylLayout();
+  mobileMq.addEventListener('change', updateVinylLayout);
+
+  volToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    vinylPlayer.classList.toggle('controls-open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (vinylPlayer.classList.contains('controls-open') && !vinylPlayer.contains(e.target)) {
+      vinylPlayer.classList.remove('controls-open');
+    }
+  });
+
+  vinylDisc.addEventListener('click', () => {
+    if (isPlaying) {
+      audio.pause();
+      vinylDisc.classList.remove('playing');
+      vinylStatus.textContent = 'Pausado — toca para continuar';
+      isPlaying = false;
+    } else {
+      audio.play().catch(() => {
+        vinylStatus.textContent = 'No se pudo reproducir el audio';
+      });
+      vinylDisc.classList.add('playing');
+      vinylStatus.textContent = 'Reproduciendo ♪';
+      isPlaying = true;
+    }
+  });
+
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value / 100;
+  });
+
+  document.getElementById('volUp').addEventListener('click', () => {
+    const v = Math.min(100, parseInt(volumeSlider.value) + 10);
+    volumeSlider.value = v;
+    audio.volume = v / 100;
+  });
+
+  document.getElementById('volDown').addEventListener('click', () => {
+    const v = Math.max(0, parseInt(volumeSlider.value) - 10);
+    volumeSlider.value = v;
+    audio.volume = v / 100;
+  });
+
+  function updateDisplay() {
+    document.getElementById('display-dots').textContent = '●'.repeat(input.length);
+  }
+
+  function pressKey(val) {
+    if (input.length >= 5) return;
+    input += val;
+    updateDisplay();
+  }
+
+  function deleteKey() {
+    input = input.slice(0, -1);
+    updateDisplay();
+  }
+
+  function submitKey() {
+    const err = document.getElementById('error');
+    if (input === PASSWORD) {
+      document.getElementById('overlay').classList.add('active');
+      setTimeout(() => { window.location.href = 'main.html'; }, 2000);
+    } else {
+      err.classList.add('show');
+      document.querySelector('.display-box').classList.add('shake');
+      setTimeout(() => {
+        document.querySelector('.display-box').classList.remove('shake');
+        err.classList.remove('show');
+      }, 1000);
+      input = '';
+      updateDisplay();
+    }
+  }
+
+  // Enter keyboard support
+  document.addEventListener('keydown', (e) => {
+    if (e.key >= '0' && e.key <= '9') pressKey(e.key);
+    else if (e.key === 'Backspace') deleteKey();
+    else if (e.key === 'Enter') submitKey();
+  });
+</script>
+</body>
+</html>
